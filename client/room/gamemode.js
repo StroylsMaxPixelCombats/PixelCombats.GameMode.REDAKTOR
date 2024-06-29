@@ -6,12 +6,16 @@ import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, Game
 Damage.FriendlyFire = false;
 BreackGraph.OnlyPlayerBlocksDmg = false;
 BreackGraph.WeakBlocks = true;
+
 // Делаем возможность, ломать все блоки
 BreackGraph.BreackAll = true;
+
 // Показываем количество, квадов
 Ui.GetContext().QuadsCount.Value = true;
+
 // Разрешаем все чистые, блоки
 Build.GetContext().BlocksSet.Value = BuildBlocksSet.AllClear;
+
 // Разрешаем все строительные, опции
 Build.GetContext().Pipette.Value = true;
 Build.GetContext().FloodFill.Value = true;
