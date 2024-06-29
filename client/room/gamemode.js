@@ -1,18 +1,18 @@
 //var System = importNamespace('System');
-import { Color } from 'pixel_combats/basic';
+import { DisplayValueHeader, Color } from 'pixel_combats/bisac';
 import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, GameMode, Spawns } from 'pixel_combats/room';
 
-// Разрешения
+// Разрешения, опциями
 Damage.FriendlyFire = false;
 BreackGraph.OnlyPlayerBlocksDmg = false;
 BreackGraph.WeakBlocks = true;
-// Делаем возможность, ломать все блоки
+// делаем возможным ломать все блоки
 BreackGraph.BreackAll = true;
-// Показываем количество, квадов
+// показываем количество квадов
 Ui.GetContext().QuadsCount.Value = true;
-// Разрешаем, все чистые блоки
+// разрешаем все чистые блоки
 Build.GetContext().BlocksSet.Value = BuildBlocksSet.AllClear;
-// Включаем, строительные опции
+// вкл строительные опции
 Build.GetContext().Pipette.Value = true;
 Build.GetContext().FloodFill.Value = true;
 Build.GetContext().FillQuad.Value = true;
@@ -31,32 +31,32 @@ Build.GetContext().LoadMapEnable.Value = true;
 Build.GetContext().ChangeSpawnsEnable.Value = true;
 Build.GetContext().BuildRangeEnable.Value = true;
 
-// Запрещаем, наносить урон
+// запрет нанесения урона
 Damage.GetContext().DamageOut.Value = false;
 
-// Параметры/Настройки, игры
+// параметры игры
 Properties.GetContext().GameModeName.Value = "GameModes/EDITOR";
-// Создаём, команды
+// создаем команды
 red = GameMode.Parameters.GetBool("RedTeam");
 blue = GameMode.Parameters.GetBool("BlueTeam");
 if (red || !red && !blue) {
-	Teams.Add("Red", "Teams/Red", new Color(1, 0, 0, 0));
+	Teams.Add("Red", "Teams/Red", { r: 1 });
 	Teams.Get("Red").Spawns.SpawnPointsGroups.Add(2);
 }
 if (blue || !red && !blue) {
-	Teams.Add("Blue", "Teams/Blue", new Color(0, 0, 1, 0));
+	Teams.Add("Blue", "Teams/Blue", { b: 1 });
 	Teams.Get("Blue").Spawns.SpawnPointsGroups.Add(1);
 }
 
-// Разрешаем вход, куда заходить игрокам по командам, и запросу
+// разрешаем вход в команды по запросу
 Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
-// Спавн, при входе в команду
+// спавн по входу в команду
 Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn()});
 
-// Задаём, подсказку для, строительства
+// задаем подсказку
 Ui.getContext().Hint.Value = "Hint/BuildBase";
 
-// Инвентарь того, что зависит для редактора
+// конфигурация инвентаря
 var roomInventory = Inventory.GetContext();
 roomInventory.Main.Value = false;
 roomInventory.Secondary.Value = false;
@@ -65,5 +65,5 @@ roomInventory.Explosive.Value = false;
 roomInventory.Build.Value = true;
 roomInventory.BuildInfinity.Value = true;
 
-// Моментальный спавн, после смерти
+// моментальный спавн
 Spawns.GetContext().RespawnTime.Value = 0;
