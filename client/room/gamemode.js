@@ -1,4 +1,6 @@
 //var System = importNamespace('System');
+import * as basic from 'pixel_combats/basic';
+import * as room from 'pixel_combats/room';
 
 // Опции
 var EndOfMatchTime = 10;
@@ -20,7 +22,9 @@ var mainTimer = Timers.GetContext().Get("Main"); 		// таймер конца и
 var endAreas = AreaService.GetByTag(EndAreaTag);		// зоны конца игры
 var spawnAreas = AreaService.GetByTag(SpawnAreasTag);	// зоны спавнов
 var stateProp = Properties.GetContext().Get("State");	// свойство состояния
-var inventory = Inventory.GetContext();					// контекст инвентаря
+var inventory = Inventory.GetContext();	// контекст инвентаря
+var gnmeEndAreaColor = new basic.Color(0, 0, 1, 0);	// цвет зоны конца маршрута
+var areaColor = new basic.Color(1, 1, 1, 0));  // цвет зоны
 
 // Параметры, режима
 Properties.GetContext().GameModeName.Value = "GameModes/Parcour";
@@ -30,7 +34,6 @@ BreackGraph.OnlyPlayerBlocksDmg = GameMode.Parameters.GetBool("PartialDesruction
 BreackGraph.WeakBlocks = GameMode.Parameters.GetBool("LoosenBlocks");
 
 // Запрещаем всё, в руках
-var inventory = Inventory.GetContext();
 inventory.Main.Value = false;
 inventory.Secondary.Value = false;
 inventory.Melee.Value = false;
@@ -69,7 +72,7 @@ function OnState() {
 // Визуализируем конец, маршрута
 if (GameMode.Parameters.GetBool(ViewEndParameterName)) {
 	var endView = AreaViewService.GetContext().Get("EndView");
-	endView.Color = gnmeEndAreaColor;
+	endView.Color = areaColor;
 	endView.Tags = [EndAreaTag];
 	endView.Enable = true;
 }
@@ -77,7 +80,7 @@ if (GameMode.Parameters.GetBool(ViewEndParameterName)) {
 // Визуализируем промежуточные спавны, маршрута
 if (GameMode.Parameters.GetBool(ViewSpawnsParameterName)) {
 	var spawnsView = AreaViewService.GetContext().Get("SpawnsView");
-	spawnsView.Color = areaColor;
+	spawnsView.Color = gnmeEndAreaColor;
 	spawnsView.Tags = [SpawnAreasTag];
 	spawnsView.Enable = true;
 }
