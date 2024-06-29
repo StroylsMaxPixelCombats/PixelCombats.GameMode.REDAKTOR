@@ -4,7 +4,7 @@ import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, Game
 
 // Разрешения
 Damage.FriendlyFire = false;
-BreackGraph.OnlyPlayerBlocksDmg = GameMode.Parameters.GetBool("OnlyPlayerBlocksDmg");
+BreackGraph.OnlyPlayerBlocksDmg = false;
 BreackGraph.WeakBlocks = true;
 // Делаем возможность, ломать все блоки
 BreackGraph.BreackAll = true;
