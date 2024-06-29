@@ -20,6 +20,11 @@
           "Name": "BlueTeam",
           "DisplayName": "КОМАНДА СИНИЯ",
           "Default": true
+        } 
+        {
+          "Name": "OnlyPlayerBlocksDmg",
+          "DisplayName": "ЧАСТИЧНОЕ РАЗРУШЕНИЕ",
+          "Default": false
         }
       ]
     }
