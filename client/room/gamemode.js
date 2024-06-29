@@ -1,4 +1,6 @@
 //var System = importNamespace('System');
+import * as basic from 'pixel_combats/basic';
+import * as room from 'pixel_combats/room';
 
 // Опции
 var EndOfMatchTime = 10;
