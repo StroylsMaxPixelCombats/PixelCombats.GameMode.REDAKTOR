@@ -1,21 +1,18 @@
-import { DisplayValueHeader, Color } from 'pixel_combats/basic';
+//var System = importNamespace('System');
+import { Color } from 'pixel_combats/basic';
 import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, GameMode, Spawns } from 'pixel_combats/room';
 
 // Разрешения
 Damage.FriendlyFire = false;
 BreackGraph.OnlyPlayerBlocksDmg = false;
 BreackGraph.WeakBlocks = true;
-
 // Делаем возможность, ломать все блоки
 BreackGraph.BreackAll = true;
-
 // Показываем количество, квадов
 Ui.GetContext().QuadsCount.Value = true;
-
-// Разрешаем все чистые, блоки
+// Разрешаем, все чистые блоки
 Build.GetContext().BlocksSet.Value = BuildBlocksSet.AllClear;
-
-// Разрешаем все строительные, опции
+// Включаем, строительные опции
 Build.GetContext().Pipette.Value = true;
 Build.GetContext().FloodFill.Value = true;
 Build.GetContext().FillQuad.Value = true;
@@ -34,10 +31,10 @@ Build.GetContext().LoadMapEnable.Value = true;
 Build.GetContext().ChangeSpawnsEnable.Value = true;
 Build.GetContext().BuildRangeEnable.Value = true;
 
-// Запрет нанесения, урона
+// Запрещаем, наносить урон
 Damage.GetContext().DamageOut.Value = false;
 
-// Параметры, игры
+// Параметры/Настройки, игры
 Properties.GetContext().GameModeName.Value = "GameModes/EDITOR";
 // Создаём, команды
 red = GameMode.Parameters.GetBool("RedTeam");
@@ -51,22 +48,22 @@ if (blue || !red && !blue) {
 	Teams.Get("Blue").Spawns.SpawnPointsGroups.Add(1);
 }
 
-// Разрешаем вход в команды, по запросу
+// Разрешаем вход, куда заходить игрокам по командам, и запросу
 Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
-// Спавн по входу, в команду
+// Спавн, при входе в команду
 Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn()});
 
-// Задаём, подсказку
+// Задаём, подсказку для, строительства
 Ui.getContext().Hint.Value = "Hint/BuildBase";
 
-// Конфигурация, инвентаря
-var Inventory = Inventory.GetContext();
-Inventory.Main.Value = false;
-Inventory.Secondary.Value = false;
-Inventory.Melee.Value = true;
-Inventory.Explosive.Value = false;
-Inventory.Build.Value = true;
-Inventory.BuildInfinity.Value = true;
+// Инвентарь того, что зависит для редактора
+var roomInventory = Inventory.GetContext();
+roomInventory.Main.Value = false;
+roomInventory.Secondary.Value = false;
+roomInventory.Melee.Value = true;
+roomInventory.Explosive.Value = false;
+roomInventory.Build.Value = true;
+roomInventory.BuildInfinity.Value = true;
 
-// Моментальный, спавн
+// Моментальный спавн, после смерти
 Spawns.GetContext().RespawnTime.Value = 0;
