@@ -2,12 +2,9 @@
 import { DisplayValueHeader, Color } from 'pixel_combats/basic';
 import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, GameMode, Spawns } from 'pixel_combats/room';
 
-// Опции
-BreackGraph.OnlyPlayerBlocksDmg.Value = GameMode.Parameters.GetBool("OnlyPlayerBlocksDmg");
-
 // Разрешения
 Damage.FriendlyFire = false;
-BreackGraph.OnlyPlayerBlocksDmg.Value = false;
+BreackGraph.OnlyPlayerBlocksDmg.Value = GameMode.Parameters.GetBool("OnlyPlayerBlocksDmg");
 BreackGraph.WeakBlocks = true;
 // Делаем возможность, ломать все блоки
 BreackGraph.BreackAll = true;
