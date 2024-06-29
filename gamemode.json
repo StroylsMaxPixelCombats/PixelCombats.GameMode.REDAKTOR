@@ -14,12 +14,12 @@
     "Bool": [
       {
         "Name": "ViewEnd",
-        "DisplayName": "GmParams/ViewEnd",
+        "DisplayName": "ОТОБРАЖАТЬ КОНЕЦ МАРШРУТА",
         "Default": true
       },
       {
         "Name": "ViewSpawns",
-        "DisplayName": "GmParams/ViewSpawns",
+        "DisplayName": "ОТОБРАЖАТЬ СОХРАНЕНИЯ МАРШРУТА",
         "Default": true
       }
     ]
