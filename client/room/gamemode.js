@@ -1,5 +1,5 @@
 //var System = importNamespace('System');
-import { DisplayValueHeader, Color } from 'pixel_combats/bisac';
+import { Color } from 'pixel_combats/bisac';
 import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, GameMode, Spawns, Inventory } from 'pixel_combats/room';
 
 // Разрешения, опции
