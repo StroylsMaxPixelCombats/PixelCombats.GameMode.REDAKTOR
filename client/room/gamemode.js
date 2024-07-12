@@ -37,24 +37,21 @@ Damage.GetContext().DamageOut.Value = false;
 // Параметры, игры
 Properties.GetContext().GameModeName.Value = "GameModes/EDITOR";
 // Создаём, команды
-Red = GameMode.Parameters.GetBool("RedTeam");
-Blue = GameMode.Parameters.GetBool("BlueTeam");
-if (Red || !Red && !Blue) {
-	Teams.Add("Red", "Teams/Red", new Color(1, 0, 0, 0));
-	Teams.Get("Red").Spawns.SpawnPointsGroups.Add(2);
+if (GameMode.Parameters.GetBool("RedTeam")) {
+Teams.Add("Red", "Teams/Red", new Color(1, 0, 0, 0));
+Teams.Get("Red").Spawns.SpawnPointsGroups.Add(1);
+if (GameMode.Parameters.GetBool("BlueTeam")) {
+Teams.Add("Blue", "Teams/Blue", new Color(0, 0, 1, 0));
+Teams.Get("Blue").Spawns.SpawnPointsGroups.Add(2);
 }
-if (Blue || !Red && !Blue) {
-	Teams.Add("Blue", "Teams/Blue", new Color(0, 0, 1, 0));
-	Teams.Get("Blue").Spawns.SpawnPointsGroups.Add(1);
-}
-
+};
 // Разрешаем вход в команды, по запросу
-Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
+Teams.OnRequestJoinTeam.Add(function(aplayer,Team){Team.Add(Player);});
 // спавн по входу, в команду
-Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn()});
+Teams.OnPlayerChangeTeam.Add(function(Player){ Player.Spawns.Spawn()});
 
 // Задаём, подсказку
-Ui.getContext().Hint.Value = "Hint/BuildBase";
+Ui.GetContext().Hint.Value = "РЕДАКТИРУЙТЕ, КАРТУ!";
 
 // Конфигурация, инвентаря
 var Inventory = Inventory.GetContext();
