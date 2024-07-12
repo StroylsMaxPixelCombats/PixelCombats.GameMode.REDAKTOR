@@ -54,7 +54,7 @@ Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
 Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn()});
 
 // Задаём, подсказку
-Ui.getContext().Hint.Value = "Hint/EditTheMap";
+Ui.getContext().Hint.Value = "Hint/BuildBase";
 
 // Конфигурация, инвентаря
 var Inventory = Inventory.GetContext();
