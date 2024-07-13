@@ -1,5 +1,5 @@
 //var System = importNamespace('System');
-import { Color } from 'pixel_combats/basic;
+import { Color } from 'pixel_combats/basic';
 import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, GameMode, Spawns } from 'pixel_combats/room';
 
 // Настройки
