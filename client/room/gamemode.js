@@ -1,6 +1,6 @@
 //var System = importNamespace('System');
-import { Color } from 'pixel_combats/basic';
 import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, GameMode, Spawns, Inventory } from 'pixel_combats/room';
+import * as teams from './default_teams.js';
 
 // Настройки
 Damage.FriendlyFire = false;
@@ -35,17 +35,10 @@ Build.GetContext().BuildRangeEnable.Value = true;
 Damage.GetContext().DamageOut.Value = false;
 
 // Создаём, команды
-red = GameMode.Parameters.GetBool("RedTeam");
-blue = GameMode.Parameters.GetBool("BlueTeam");
-if (red || !red && !blue) {
-	Teams.Add("Red", "Teams/Red", new Color(1, 0, 0, 0));
-	Teams.Get("Red").Spawns.SpawnPointsGroups.Add(2);
-}
-if (blue || !red && !blue) {
-	Teams.Add("Blue", "Teams/Blue", new Color(0, 0, 1, 0));
-	Teams.Get("Blue").Spawns.SpawnPointsGroups.Add(1);
-}
-
+var red = GameMode.Parameters.GetBool("RedTeam");
+var blue = GameMode.Parameters.GetBool("BlueTeam");
+if (red || !red && !blue) teams.create_team_red();
+if (blue || !red && !blue) teams.create_team_blue();
 // Зазрешаем вход в команды, по запросу
 Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
 // Спавн по входу, в команду
