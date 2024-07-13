@@ -1,6 +1,6 @@
 //var System = importNamespace('System');
 import { Color } from 'pixel_combats/basic';
-import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Properties, GameMode, Spawns } from 'pixel_combats/room';
+import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, GameMode, Spawns } from 'pixel_combats/room';
 
 // Настройки
 Damage.FriendlyFire = false;
@@ -34,18 +34,16 @@ Build.GetContext().BuildRangeEnable.Value = true;
 // Запрет нанесения, урона
 Damage.GetContext().DamageOut.Value = false;
 
-// Параметры, режима 
-Properties.GetContext().GameModeName.Value = "GameMode/EDITOR";
 // Создаём, команды
 red = GameMode.Parameters.GetBool("RedTeam");
 blue = GameMode.Parameters.GetBool("BlueTeam");
 if (red || !red && !blue) {
 	Teams.Add("Red", "Teams/Red", new Color(1, 0, 0, 0));
-	Teams.Get("Red").Spawns.SpawnPointsGroups.Add(1);
+	Teams.Get("Red").Spawns.SpawnPointsGroups.Add(2);
 }
 if (blue || !red && !blue) {
 	Teams.Add("Blue", "Teams/Blue", new Color(0, 0, 1, 0));
-	Teams.Get("Blue").Spawns.SpawnPointsGroups.Add(2);
+	Teams.Get("Blue").Spawns.SpawnPointsGroups.Add(1);
 }
 
 // Зазрешаем вход в команды, по запросу
