@@ -48,13 +48,13 @@ Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn()});
 Ui.GetContext().Hint.Value = "!Редактируйте, КАРТУ!";
 
 // Конфигурация, инвентаря
-var Inventory = Inventory.GetContext();
-Inventory.Main.Value = false;
-Inventory.Secondary.Value = false;
-Inventory.Melee.Value = true;
-Inventory.Explosive.Value = false;
-Inventory.Build.Value = true;
-Inventory.BuildInfinity.Value = true;
+var roomInventory = Inventory.GetContext();
+roomInventory.Main.Value = false;
+roomInventory.Secondary.Value = false;
+roomInventory.Melee.Value = true;
+roomInventory.Explosive.Value = false;
+roomInventory.Build.Value = true;
+roomInventory.BuildInfinity.Value = true;
 
 // Моментальный, спавн
 Spawns.GetContext().RespawnTime.Value = 0;
