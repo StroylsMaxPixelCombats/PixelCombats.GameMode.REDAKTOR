@@ -1,18 +1,14 @@
-//var System = importNamespace('System');
-import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, GameMode, Spawns, Inventory } from 'pixel_combats/room';
-import * as teams from './default_teams.js';
+import { DisplayValueHeader, Color } from 'pixel_combats/basic';
+import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, GameMode, Spawns, Inventory } 'pixel_combats/room';
 
-// Настройки
-Damage.FriendlyFire = false;
-BreackGraph.OnlyPlayerBlocksDmg = false;
+// Настройки, команд:
+Damage.FriendlyFire = true;
 BreackGraph.WeakBlocks = true;
-// Делаем возможным ломать, все блоки
 BreackGraph.BreackAll = true;
-// Показываем количество, квадов
 Ui.GetContext().QuadsCount.Value = true;
-// Разрешаем все чистые, блоки
 Build.GetContext().BlocksSet.Value = BuildBlocksSet.AllClear;
-// Строительные, опции
+
+// Строительные, свойства:
 Build.GetContext().Pipette.Value = true;
 Build.GetContext().FloodFill.Value = true;
 Build.GetContext().FillQuad.Value = true;
@@ -31,30 +27,44 @@ Build.GetContext().LoadMapEnable.Value = true;
 Build.GetContext().ChangeSpawnsEnable.Value = true;
 Build.GetContext().BuildRangeEnable.Value = true;
 
-// Запрет нанесения, урона
-Damage.GetContext().DamageOut.Value = false;
+// Мадефикации - режима:
+if (GameMode.Parameters.GetBool("Damage")) {
+Damage.GetContext().DamageOut.Value = true;
+}
+if (GameMode.Parameters.GetBool("BlocksOnly")) {
+BreackGraph.OnlyPlayerBlocksDmg = false;
+}
+if (GameMode.Parameters.GetBool("Weapon1")) {
+Inventory.Main.Value = true;
+Inventory.Secondary.Value = true;
+Inventory.SecondaryInfinity.Value = true;
+Inventory.Melee.Value = true;
+Inventory.Explosive.Value = true;
+Inventory.ExplosiveInfinity.Value = true;
+Inventory.Build.Value = true;
+Inventory.BuildInfinity.Value = true;
 
-// Создаём, команды
-var red = GameMode.Parameters.GetBool("RedTeam");
-var blue = GameMode.Parameters.GetBool("BlueTeam");
-if (red || !red && !blue) teams.create_team_red();
-if (blue || !red && !blue) teams.create_team_blue();
-// Зазрешаем вход в команды, по запросу
+// Создаём - команды:
+Teams.Add("Blue", "<b><i>|[•]{Синия КОМАНДА}[•]|</i></b>", new Color(0, 0, 1, 0));
+Teams.Add("Red", "<b><i>|[•]{Красная КОМАНДА}[•]</i></b>", new Color(1, 0, 0, 0));
+var BlueTeam = Teams.Get("Blue");
+var RedTeam = Teams.Get("Red");
+
+// Командная, настройка:
 Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
-// Спавн по входу, в команду
-Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn()});
-
-// Задаём, подсказку
+Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn(); });
+Spawns.GetContext().RespawnTime.Value = 5;
 Ui.GetContext().Hint.Value = "!Редактируйте, КАРТУ!";
 
-// Конфигурация, инвентаря
-var roomInventory = Inventory.GetContext();
-roomInventory.Main.Value = false;
-roomInventory.Secondary.Value = false;
-roomInventory.Melee.Value = true;
-roomInventory.Explosive.Value = false;
-roomInventory.Build.Value = true;
-roomInventory.BuildInfinity.Value = true;
+// Инвентарь - сартировочный:
+var Inventory = Inventory.GetContext();
+Inventory.Main.Value = true;
+Inventory.MainInfinity.Value = true;
+Inventory.Secondary.Value = true;
+Inventory.SecondaryInfinity.Value = true;
+Inventory.Melee.Value = true;
+Inventory.Explosive.Value = true;
+Inventory.ExplosiveInfinity.Value = true;
+Inventory.Build.Value = true;
+Inventory.BuildInfinity.Value = true;
 
-// Моментальный, спавн
-Spawns.GetContext().RespawnTime.Value = 0;
