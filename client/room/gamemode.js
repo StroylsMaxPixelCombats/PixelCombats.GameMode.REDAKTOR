@@ -35,14 +35,18 @@ if (GameMode.Parameters.GetBool("BlocksOnly")) {
 BreackGraph.OnlyPlayerBlocksDmg = false;
 }
 if (GameMode.Parameters.GetBool("Weapon1")) {
-Inventory.Main.Value = true;
-Inventory.Secondary.Value = true;
-Inventory.SecondaryInfinity.Value = true;
+Inventory.Main.Value = false;
+Inventory.Secondary.Value = false;
 Inventory.Melee.Value = true;
-Inventory.Explosive.Value = true;
-Inventory.ExplosiveInfinity.Value = true;
+Inventory.Explosive.Value = false;
 Inventory.Build.Value = true;
-Inventory.BuildInfinity.Value = true;
+}
+if (GameMode.Parameters.GetBool("1000000HP")) {
+player.contextedProperties.MaxHp.Value = 1000000;
+}
+if (GameMode.Parameters.GetBool("DamageOFF")) {
+player.Damage.DamageIn.Value = false;
+}
 
 // Создаём - команды:
 Teams.Add("Blue", "<b><i>|[•]{Синия КОМАНДА}[•]|</i></b>", new Color(0, 0, 1, 0));
@@ -67,4 +71,32 @@ Inventory.Explosive.Value = true;
 Inventory.ExplosiveInfinity.Value = true;
 Inventory.Build.Value = true;
 Inventory.BuildInfinity.Value = true;
+
+// Настройка, лидербордов:
+LeaderBoard.PlayerLeaderBoardValues = [
+  new DisplayValueHeader("Kills", "<b><color=Yellow>Убийства</a></b>", "<b><color=Yellow>Убийства</a></b>")
+  new DisplayValueHeader("Deaths", "<b><color=Red>Смерти</a></b>", "<b><color=Red>Смерти</a></b>")
+  new DisplayValueHeader("Scores", "<b><color=Lime>Монеты</a></b>", "<b><color=Lime>Монеты</a></b>")
+];
+
+LeaderBoard.PlayersWeightGetter.Set(function(player) {
+  return player.Properties.Get("Scores").Value;
+});
+
+Ui.GetContext().TeamProp1.Value = { Team: "Blue", Prop: "Deaths" };
+Ui.GetContext().TeamProp2.Value = { Team: "Red", Prop: "Deaths" };
+
+Damage.OnDeath.Add(function(player) {
+  ++player.Properties.Deaths.Value;
+});
+
+Damage.OnKill.Add(function(player, killed) {
+ if (player.id !== killed.id) { 
+    ++player.Properties.Kills.Value;
+    player.Properties.Scores.Value += 250;
+ }
+});
+
+
+
 
