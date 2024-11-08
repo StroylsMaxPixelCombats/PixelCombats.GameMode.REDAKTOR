@@ -1,6 +1,6 @@
 {
     "Name": "<b><i><color=Lime>[РЕДАКТОР]</i></a> - <color=Red>Редактируйте, создавайте собственные карты, в одиночку или с друзьями!</a></b>",
-    "Description": "<b><i>!Создавай собственные карты!</i></b>",
+    "Description": "<b><i>!Создавай собственные карты, или редактируйте их!</i></b>",
     "StartClientVersion": 334,
     "ApiVersion": 2,
     "MapLists": [
@@ -12,7 +12,7 @@
     "Parameters": {
       "Bool": [
         {
-          "Name": "RedTeam",
+          "Name": "",
           "DisplayName": "КОМАНДА КРАСНАЯ",
           "Default": true
         },
