@@ -12,8 +12,8 @@
     "Parameters": {
       "Bool": [
         {
-          "Name": "",
-          "DisplayName": "КОМАНДА КРАСНАЯ",
+          "Name": "Damage",
+          "DisplayName": "<b><color=Lime>УРОН</a> на сервере|",
           "Default": true
         },
         {
