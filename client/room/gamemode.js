@@ -28,6 +28,8 @@ Build.GetContext().ChangeSpawnsEnable.Value = true;
 Build.GetContext().BuildRangeEnable.Value = true;
 
 // Создаём - команды:
+var red = GameMode.Parameters.GetBool("RedTeam");
+var blue = GameMode.Parameters.GetBool("BlueTeam");
 if (red || !red && !blue) teams.create_team_red();
 if (blue || !red && !blue) teams.create_team_blue();
 
