@@ -1,5 +1,5 @@
-import { DisplayValueHeader, Color } from 'pixel_combats/basic';
-import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, GameMode, Spawns, Inventory } 'pixel_combats/room';
+import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Spawns, Inventory } from 'pixel_combats/room';
+import * as teams from './default_teams.js';
 
 // Настройки, команд:
 Damage.FriendlyFire = true;
@@ -27,32 +27,9 @@ Build.GetContext().LoadMapEnable.Value = true;
 Build.GetContext().ChangeSpawnsEnable.Value = true;
 Build.GetContext().BuildRangeEnable.Value = true;
 
-// Мадефикации - режима:
-if (GameMode.Parameters.GetBool("Damage")) {
-Damage.GetContext().DamageOut.Value = true;
-}
-if (GameMode.Parameters.GetBool("BlocksOnly")) {
-BreackGraph.OnlyPlayerBlocksDmg = false;
-}
-if (GameMode.Parameters.GetBool("Weapon1")) {
-Inventory.Main.Value = false;
-Inventory.Secondary.Value = false;
-Inventory.Melee.Value = true;
-Inventory.Explosive.Value = false;
-Inventory.Build.Value = true;
-}
-if (GameMode.Parameters.GetBool("1000000HP")) {
-player.contextedProperties.MaxHp.Value = 1000000;
-}
-if (GameMode.Parameters.GetBool("DamageOFF")) {
-player.Damage.DamageIn.Value = false;
-}
-
 // Создаём - команды:
-Teams.Add("Blue", "<b><i>|[•]{Синия КОМАНДА}[•]|</i></b>", new Color(0, 0, 1, 0));
-Teams.Add("Red", "<b><i>|[•]{Красная КОМАНДА}[•]</i></b>", new Color(1, 0, 0, 0));
-var BlueTeam = Teams.Get("Blue");
-var RedTeam = Teams.Get("Red");
+if (red || !red && !blue) teams.create_team_red();
+if (blue || !red && !blue) teams.create_team_blue();
 
 // Командная, настройка:
 Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
@@ -71,32 +48,3 @@ Inventory.Explosive.Value = true;
 Inventory.ExplosiveInfinity.Value = true;
 Inventory.Build.Value = true;
 Inventory.BuildInfinity.Value = true;
-
-// Настройка, лидербордов:
-LeaderBoard.PlayerLeaderBoardValues = [
-  new DisplayValueHeader("Kills", "<b><color=Yellow>Убийства</a></b>", "<b><color=Yellow>Убийства</a></b>")
-  new DisplayValueHeader("Deaths", "<b><color=Red>Смерти</a></b>", "<b><color=Red>Смерти</a></b>")
-  new DisplayValueHeader("Scores", "<b><color=Lime>Монеты</a></b>", "<b><color=Lime>Монеты</a></b>")
-];
-
-LeaderBoard.PlayersWeightGetter.Set(function(player) {
-  return player.Properties.Get("Scores").Value;
-});
-
-Ui.GetContext().TeamProp1.Value = { Team: "Blue", Prop: "Deaths" };
-Ui.GetContext().TeamProp2.Value = { Team: "Red", Prop: "Deaths" };
-
-Damage.OnDeath.Add(function(player) {
-  ++player.Properties.Deaths.Value;
-});
-
-Damage.OnKill.Add(function(player, killed) {
- if (player.id !== killed.id) { 
-    ++player.Properties.Kills.Value;
-    player.Properties.Scores.Value += 250;
- }
-});
-
-
-
-
