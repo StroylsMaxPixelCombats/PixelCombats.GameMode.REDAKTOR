@@ -36,8 +36,6 @@ if (blue || !red && !blue) teams.create_team_blue();
 // Командная, настройка:
 Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
 Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn(); });
-Spawns.GetContext().RespawnTime.Value = 5;
-Ui.GetContext().Hint.Value = "!Редактируйте, КАРТУ!";
 
 // Инвентарь - сартировочный:
 var Inventory = Inventory.GetContext();
@@ -50,3 +48,7 @@ Inventory.Explosive.Value = true;
 Inventory.ExplosiveInfinity.Value = true;
 Inventory.Build.Value = true;
 Inventory.BuildInfinity.Value = true;
+
+// Параметры: 
+Ui.GetContext().Hint.Value = "!Приятного, редактирования!";
+Spawns.GetContext().RespawnTime.Value = 5;
