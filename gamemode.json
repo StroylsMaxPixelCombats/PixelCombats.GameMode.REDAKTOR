@@ -2,7 +2,7 @@
     "Name": "<b><i><color=Lime>[|РЕДАКТОР|]</a></i> - <a>Редактируйте карты, или создавайте свои карты!</a></b>",
     "Description": "<b><i>!Создавай собственные карты, или редактируйте их!</i></b>",
     "StartClientVersion": 334,
-    "ApiVersion": 1,
+    "ApiVersion": 2,
     "MapLists": [
       {
         "MapListId": 8401,
