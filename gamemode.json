@@ -1,5 +1,5 @@
 {
-    "Name": "<b><i><color=Lime>[РЕДАКТОР]</a></i> - <color=Red>Редактируйте, создавайте собственные карты, в одиночку или с друзьями!</a></b>",
+    "Name": "<b><color=Lime>[РЕДАКТОР]</a> - <i><color=Red>Редактируйте, создавайте собственные карты, в одиночку или с друзьями!</a></i></b>",
     "Description": "<b><i>!Создавай собственные карты, или редактируйте их!</i></b>",
     "StartClientVersion": 334,
     "ApiVersion": 2,
@@ -12,13 +12,13 @@
     "Parameters": {
       "Bool": [
         {
-          "Name": "Damage",
-          "DisplayName": "<b><color=Lime>УРОН</a> на сервере|",
+          "Name": "RedTeam",
+          "DisplayName": "<b><i>Красная команда</i></b>",
           "Default": true
         },
         {
           "Name": "BlueTeam",
-          "DisplayName": "КОМАНДА СИНИЯ",
+          "DisplayName": "<b><i>Синия команда</i></b>",
           "Default": true
         }
       ]
