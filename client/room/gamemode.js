@@ -1,54 +1,37 @@
-import { Build, BuildBlocksSet, Teams, Damage, BreackGraph, Ui, Spawns, Inventory } from 'pixel_combats/room';
-import * as teams from './default_teams.js';
+import { DisplayValueHeader, Color } from 'pixel_combats/basic';
+import { Players, Inventory, Properties, Spawns, Teams, Timers, Game, GameMode, Ui, Damage, BreackGraph, TeamsBalancer } from 'pixel_combats/room';
 
-// Настройки, команд:
-Damage.FriendlyFire = true;
-BreackGraph.WeakBlocks = true;
-BreackGraph.BreackAll = true;
-Ui.GetContext().QuadsCount.Value = true;
-Build.GetContext().BlocksSet.Value = BuildBlocksSet.AllClear;
+// Настройки:
+Damage.GetContext().FriendlyFire = GameMode.Parameters.GetBool("DamageFireTeams");
+Danage.GetContext().DamageOut = GameMode.Parameters.GetBool("DamageTeams");
+BreackGraph.OnlyPlayerBlocksDmg = GameMode.Parameter.GetBool("BlocksOnly");
+BreackGraph.WeakBlocks.Value = true;
 
-// Строительные, свойства:
-Build.GetContext().Pipette.Value = true;
-Build.GetContext().FloodFill.Value = true;
-Build.GetContext().FillQuad.Value = true;
-Build.GetContext().RemoveQuad.Value = true;
-Build.GetContext().BalkLenChange.Value = true;
-Build.GetContext().FlyEnable.Value = true;
-Build.GetContext().SetSkyEnable.Value = true;
-Build.GetContext().GenMapEnable.Value = true;
-Build.GetContext().ChangeCameraPointsEnable.Value = true;
-Build.GetContext().QuadChangeEnable.Value = true;
-Build.GetContext().BuildModeEnable.Value = true;
-Build.GetContext().CollapseChangeEnable.Value = true;
-Build.GetContext().RenameMapEnable.Value = true;
-Build.GetContext().ChangeMapAuthorsEnable.Value = true;
-Build.GetContext().LoadMapEnable.Value = true;
-Build.GetContext().ChangeSpawnsEnable.Value = true;
-Build.GetContext().BuildRangeEnable.Value = true;
+// Параметры, игры:
+Teams.OnRequestJoinTeam.Add(function(player,team){
+ Player.Ui.Hint.Value = "!Приятного, строительства: "Player.NickName"!";
+// Создаём, команды:
+Teams.Add("Blue", "<b><i><color=Blue>Синия - КОМАНДА</color></i></b>", new Color(0, 0, 1, 0));
+Teams.Add("Red", "<b><i><color=Red>Красная - КОМАНДА</color></i></b>", new Color(1, 0, 0, 0));
+Teams.Add("Black", "<b><i>АВТОРЫ</i></b>", new Color(0, 0, 0, 0));
+var BlueTeam = Teams.Add("Blue");
+var RedTeam = Teams.Add("Red");
+var BlackTeam = Teams.Add("Black");
+BlueTeam.Build.BlocksSet.Value = BuildBlocksSet.AllClear;
+RedTeam.Build.BlocksSet.Value = BuildBlocksSet.AllClear;
+// Создаём, лидерБорды:
+LeaderBoard.PlayerLeaderBoardValues = [
+  new DisplayValueHeader("Kills", "<b><i><color=Yellow>Убийства:</color></b>", "<b><i><color=Yellow>Убийства:</color></b>"),
+  new DisplayValueHeader("Deaths", "<b><i><color=Red>Смерти:</color></i></b>", "<b><i><color=Red>Смерти:</color></i></b>"),
+  new DisplayValueHeader("Scores", "<b><i><color=Lime>Монеты:</color></i></b>", "<b><i><color=Lime>Монеты:</color></i></b>"),
+  new DisplayValueHeader("Статус", "<b><i><color=Blue>Спавны:</color></b>", "<b><i><color=Blue>Спавны:</color></b>"),
+];
 
-// Создаём - команды:
-var red = GameMode.Parameters.GetBool("RedTeam");
-var blue = GameMode.Parameters.GetBool("BlueTeam");
-if (red || !red && !blue) teams.create_team_red();
-if (blue || !red && !blue) teams.create_team_blue();
+LeaderBoard.PlayersWeightGetter.Set(function(player) {
+  return player.Properties.Get("Scores").Value;
+});
 
-// Командная, настройка:
-Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
-Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn(); });
 
-// Инвентарь - сартировочный:
-var Inventory = Inventory.GetContext();
-Inventory.Main.Value = true;
-Inventory.MainInfinity.Value = true;
-Inventory.Secondary.Value = true;
-Inventory.SecondaryInfinity.Value = true;
-Inventory.Melee.Value = true;
-Inventory.Explosive.Value = true;
-Inventory.ExplosiveInfinity.Value = true;
-Inventory.Build.Value = true;
-Inventory.BuildInfinity.Value = true;
 
-// Параметры: 
-Ui.GetContext().Hint.Value = "!Приятного, редактирования!";
-Spawns.GetContext().RespawnTime.Value = 5;
+
+
