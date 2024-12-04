@@ -1,17 +1,8 @@
 import { DisplayValueHeader, Color } from 'pixel_combats/basic';
 import { Players, Inventory, Properties, Spawns, Teams, Timers, Game, GameMode, Ui, Damage, BreackGraph, TeamsBalancer, AreaPlayerTriggerService, AreaViewService } from 'pixel_combats/room';
 
-// Константы:
-var Props = Properties.GetContext();
-var ServerTimer = Timers.GetContext().Get("Server_Timer");
-Props.Get("Server_Time_Hours").Value = 0;
-Props.Get("Server_Time_Minutes").Value = 0;
-Props.Get("Server_Time_Seconds").Value = 0;
-Props.Get("Server_Time_FixedString").Value = "00:00:00";
-Props.Get("Server_Players_Now").Value = 0;
-Props.Get("Server_Players_Max").Value = Players.MaxCount;
-Props.Get("Server_Players_FixedString").Value = "0/0";
-
+try {
+	
 // Настройки:
 BreackGraph.WeakBlocks.Value = GameMode.Parameters.GetBool("WeakBlocks");
 Damage.GetContext().FriendlyFire.Value = true;
@@ -137,12 +128,16 @@ Teams.OnPlayerChangeTeam.Add(function(Player){
 
 // Стандартный таб - игры:
 PlayersTeam.Properties.Get("Deaths").Value = "<b>Не, знаешь: зон? Создай, зону: Help!</b>";
-AdminsTeam.Propertues.Get("Deaths").Value = `<b>Время, сервера: ${Props.Get('Server_Time_FixedString').Value}; игроки, в комнате: ${Props.Get('Server_Players_Now').Value}/${Props.Get('Server_Players_Max').Value}</b>`;
+AdminsTeam.Propertues.Get("Deaths").Value = `???`;
 
 // Делаем респавн, на: 3 секунды:
 Spawns.GetContext().RespawnTime.Value = 3;
 
-// Зоны:
+} catch (e) {
+	Players.All.forEach(p => {
+                p.PopUp(`${e.name}: ${e.message} ${e.stack}`);
+        });
+}
 
  
 
