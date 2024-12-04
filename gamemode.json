@@ -12,13 +12,8 @@
     "Parameters": {
       "Bool": [
         {
-          "Name": "RedTeam",
-          "DisplayName": "<b><i>Красная команда</i></b>",
-          "Default": true
-        },
-        {
-          "Name": "BlueTeam",
-          "DisplayName": "<b><i>Синия команда</i></b>",
+          "Name": "WeakBlocks",
+          "DisplayName": "<b><i>Слабые блоки</i></b>",
           "Default": true
         }
       ]
