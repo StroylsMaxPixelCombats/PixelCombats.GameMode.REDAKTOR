@@ -1,5 +1,5 @@
 import { DisplayValueHeader, Color } from 'pixel_combats/basic';
-import { Players, Inventory, Properties, Spawns, Teams, Timers, Game, GameMode, Ui, Damage, BreackGraph, TeamsBalancer, AreaPlayerTriggerService, AreaViewService } from 'pixel_combats/room';
+import { Players, Inventory, Properties, Spawns, Teams, Timers, Game, GameMode, Ui, Damage, BreackGraph, TeamsBalancer } from 'pixel_combats/room';
 
 try {
 	
