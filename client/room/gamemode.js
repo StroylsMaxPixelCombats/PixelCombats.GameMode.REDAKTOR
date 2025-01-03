@@ -1,149 +1,36 @@
+import { Build, Damage, BreackGraph, BuildBlocksSet, Ui, Properties, Teams, Inventory, Spawns, LeaderBoard, GameMode } from 'pixel_combats/room';
 import { DisplayValueHeader, Color } from 'pixel_combats/basic';
-import { Players, Inventory, Properties, Spawns, Teams, Timers, Game, GameMode, Ui, Damage, BreackGraph, TeamsBalancer } from 'pixel_combats/room';
 
-try {
-	
-// Настройки:
-BreackGraph.WeakBlocks.Value = GameMode.Parameters.GetBool("WeakBlocks");
-Damage.GetContext().FriendlyFire.Value = true;
-Danage.GetContext().DamageOut.Value = true;
-BreackGraph.OnlyPlayerBlocksDmg.Value = true;
-
-// Параметры, игры:
-Teams.OnRequestJoinTeam.Add(function(player,team) {
- Player.Ui.Hint.Value = "!Приятного, строительства: "Player.NickName"!";
+// Разрешения:
+if (GameMode.Parameters.GetBool("OnlyPlayerBlocksDmg")) {
+ BreackGraph.OnlyPlayerBlocksDmg = true;
 }
-// стандартные - команды:
-Teams.Add("Blue", "<b><i><color=Blue>Синия - КОМАНДА</color></i></b>", new Color(0, 0, 1, 0));
-Teams.Add("Red", "<b><i><color=Red>Красная - КОМАНДА</color></i></b>", new Color(1, 0, 0, 0));
-var BlueTeam = Teams.Add("Blue");
-var RedTeam = Teams.Add("Red");
-RedTeam.Spawns.SpawnPointsGroups.Add(2);
-BlueTeam.Spawns.SpawnPointsGroups.Add(1);
-BlueTeam.Build.BlocksSet.Value = BuildBlocksSet.AllClear;
-RedTeam.Build.BlocksSet.Value = BuildBlocksSet.AllClear;
-// Стандартные - лидерБорды:
-LeaderBoard.PlayerLeaderBoardValues = [
-  new DisplayValueHeader("Kills", "<b><i><color=Yellow>Убийства:</color></b>", "<b><i><color=Yellow>Убийства:</color></b>"),
-  new DisplayValueHeader("Deaths", "<b><i><color=Red>Смерти:</color></i></b>", "<b><i><color=Red>Смерти:</color></i></b>"),
-  new DisplayValueHeader("Scores", "<b><i><color=Lime>Монеты:</color></i></b>", "<b><i><color=Lime>Монеты:</color></i></b>"),
-  new DisplayValueHeader("Status", "<b><i><color=Blue>Статус:</color></b>", "<b><i><color=Blue>Статус:</color></b>"),
-  new DisplayValueHeader("AdminLeaderBoard", "<b><i><color=Red>Админ:</a></b>", "<b><i><color=Red>Админ:</a></b>")
+Damage.GetContext().FriendlyFire = true;
+BreackGraph.WeakBlocks = true;
+BreackGraph.BreackAll = true;
+Ui.GetContext().QuadsCount.Value = true;
+Build.GetContext().BlocksSet.Value = BuildBlocksSet.Blue;
+Damage.GetContext().DamageOut.Value = true;
 
-];
- 
-// Вес, игроков - в лидерБорде:
-LeaderBoard.PlayersWeightGetter.Set(function(player) {
-  return player.Properties.Get("Scores").Value;
-});
+// Создаём, команды:
+Teams.Add("Blue", "<b><size=30><color=#004e81>Ｎ</color><color=#0378a3>Г</color><color=#2e81b1≯</color><color=#2b7aaf>尺</color><color=#1a5f8f>σ</color><color=#156ea2>Ｃ</color><color=#126c97>Ⅰ</color></size></b>", new Color(0, 1, 0, 0));
+Teams.Add("Red", "<b><size=30><color=#b43b00>S</color><color=#b44400>丅</color><color=#b44d00>尺</color><color=#b45600>σ</color><color=#b45f00>l</color><color=#b46800>Ƭ</color><color=#b47100>Έ</color><color=#b47a00>刀</color><color=#b48300>Ⅰ</color></size></b>", new Color(0, 0, 0, 0));
+// разрешаем вход в команды по запросу
+Teams.OnRequestJoinTeam.Add(function(player,team){team.Add(player);});
+// спавн по входу в команду
+Teams.OnPlayerChangeTeam.Add(function(player){ player.Spawns.Spawn()});
 
-// Вес - смертей, в лидерБорде:
-Ui.GetContext().TeamProp1.Value = { Team: "Blue", Prop: "Deaths" };
-Ui.GetContext().TeamProp2.Value = { Team: "Red", Prop: "Deaths" };
+// задаем подсказку
+Ui.getContext().Hint.Value = "Hint/BuildBase";
 
-// Неуязвимость:
-var immortalityTimerName="immortality";
-Spawns.GetContext().OnSpawn.Add(function(Player){
-	Player.Properties.Immortality.Value = true;
-	timer = Player.Timers.Get(immortalityTimerName).Restart(8);
-});
-Timers.OnPlayerTimer.Add(function(Timer){
-	if (Timer.Id != immortalityTimerName) return;
-	Timer.Player.Properties.Immortality.Value = false;
-});
+// конфигурация инвентаря
+var roomInventory = Inventory.GetContext();
+roomInventory.Main.Value = false;
+roomInventory.Secondary.Value = false;
+roomInventory.Melee.Value = true;
+roomInventory.Explosive.Value = false;
+roomInventory.Build.Value = true;
+roomInventory.BuildInfinity.Value = true;
 
-// Счётчик - убийств:
-Damage.OnKill.Add(function(Player, Killed) {
-	if (Killed.Team != null && Killed.Team != Player.Team) {
-		++Player.Properties.Kills.Value;
-		Player.Properties.Scores.Value += 100;
-	}
-});
-
-// Счётчик - смертей:
-Damage.OnDeath.Add(function(Player) {
-	++Player.Properties.Deaths.Value;
-
-// Конфигурация - инвентаря:
-Inventory.GetContext().Main.Value = false;
-Inventory.GetContext().Secondary.Value = false;
-Inventory.GetContext().Melee.Value = false;
-Inventory.GetContext().Explosive.Value = false;
-Inventory.GetContext().Build.Value = false;
-
-// Задаём, консоль:
-Teams.OnRequestJoinTeam.Add(function(Player,team){
-function GetAdminka(Player) {
-Player.Inventory.Main.Value = true;
-Player.Inventory.Secondary.Value = true;
-Player.Inventory.Melee.Value = true;
-Player.Inventory.Explosive.Value = true;
-Player.Inventory.Build.Value = true;
-Player.Inventory.MainInfinity.Value = true;
-Player.Inventory.SecondaryInfinity.Value = true;
-Player.Inventory.ExplosiveInfinity.Value = true;
-Player.Inventory.BuildInfinity.Value = true;
-Player.Build.Pipette.Value = true;
-Plyer.Build.FlyEnable.Value = true;
-Player.Build.BalkLenChange.Value = true;
-Player.Build.BuildRangeEnable.Value = true;
-Player.Build.BuildModeEnable.Value = true;
-Player.Build.RemoveQuad.Value = true;
-Player.Build.FillQuad.Value = true;
-Player.Build.FloodFill.Value = true;
-Player.Build.ChangeSpawnsEnable.Value = true;
-Player.Build.LoadMapEnable.Value = true;
-Player.Build.ChangeMapAuthorsEnable.Value = true;
-Player.Build.GenMapEnable.Value = true;
-Player.Build.ChangeCameraPointsEnable.Value = true;
-Player.Build.CollapseChangeEnable.Value = true;
-Player.Build.QuadChangeEnable.Value = true;
-Player.Build.SetSkyEnable.Value = true;
-Player.Build.BlocksSet.Value = BuildBlocksSet.AllClear;
-Player.Damage.DamageIn.Value = true;
-Player.ContextedProperties.SkinType.Value = 1;
-Player.Properties.Get("Status").Value = "<b><color=Lime>Гл</a> <a>Админ</a></b>";
-Player.Properties.Get("AdminLeaderBoard").Value = "<b><color=Lime>✓</a></b>";
-AdminsTeam.Add(Player);
-}
-Teams.OnRequestJoinTeam.Add(function(Player,team){
-Player.Properties.Get("Status").Value = "<b><color=Lime>НОВИЧОК</a> <a>Игрок</a></b>";
-Player.Properties.Get("AdminLeaderBoard").Value = "<b><color=Red>×</a></b>";
-Player.ContextedProperties.SkinType.Value = 3;
-Player.ContextedProperties.MaxHp.Value = 100;
-});
-// Для, автора:
-if (Player.id == "9183CF2B463E5CD6") {
- GetAdminka(Player);
-}
-// Даём админку - 1 игроку:
-Player.Properties.Get("AdminLeaderBoard").Value == "<b><color=Lime>✓</a></b>") {
- GetAdminka(Player);
-});
-
-// Стандартные - спавны:
-Teams.OnPlayerChangeTeam.Add(function(Player){ 
-  Player.Spawns.Spawn();
-});
-
-// Стандартный таб - игры:
-PlayersTeam.Properties.Get("Deaths").Value = "<b>Не, знаешь: зон? Создай, зону: Help!</b>";
-AdminsTeam.Propertues.Get("Deaths").Value = `???`;
-
-// Делаем респавн, на: 3 секунды:
-Spawns.GetContext().RespawnTime.Value = 3;
-
-} catch (e) {
-	Players.All.forEach(p => {
-                p.PopUp(`${e.name}: ${e.message} ${e.stack}`);
-        });
-}
-
- 
-
-
-
-
-
-
-
+// моментальный спавн
+Spawns.GetContext().RespawnTime.Value = 0;
